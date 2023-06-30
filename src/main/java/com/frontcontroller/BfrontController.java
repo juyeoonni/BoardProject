@@ -10,7 +10,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.command.BWriteCommand;
+import com.command.BAllSelectCommand;
+import com.command.BBoardDeleteCommand;
+import com.command.BDeleteCommand;
+import com.command.BInsertCommand;
+import com.command.BReplyCommand;
+import com.command.BSelectCommand;
+import com.command.BUpdateCommand;
 import com.command.Bcommand;
 import com.daodto.BoardDTO;
 
@@ -77,15 +83,30 @@ public class BfrontController extends HttpServlet {
 		String command = uri.substring(conPath.length());
 		System.out.println("command: " + command);
 
-		if (command.equals("insert.do")) {
+		if (command.equals("/View/insert.do")) {
 			System.out.println("/View/insert.do");
+			Bcommand bcommand = new BInsertCommand();
+			String nmName = request.getParameter("nmName");
+			String nmTitle = request.getParameter("nmTitle");
+			String nmContent = request.getParameter("nmContent");
+			bcommand.listInsert(nmName, nmTitle, nmContent);
+			response.sendRedirect("/JSP_BoardProject/View/list.jsp");
 			System.out.println("-------------------------");
-		} else if (command.equals("update.do")) {
+
+		} else if (command.equals("/View/update.do")) {
 			System.out.println("/View/update.do");
+			Bcommand bcommand = new BUpdateCommand();
+			int nbMvcBoard = Integer.parseInt(request.getParameter("nbMvcBoard"));
+			String nmName = request.getParameter("nmName");
+			String nmTitle = request.getParameter("nmTitle");
+			String nmContent = request.getParameter("nmContent");
+			bcommand.listUpdate(nbMvcBoard, nmName, nmTitle, nmContent);
+			response.sendRedirect("/JSP_BoardProject/View/list.do");
 			System.out.println("-------------------------");
+
 		} else if (command.equals("/View/list.do")) {
 			System.out.println("/View/list.do");
-			Bcommand bcommand = new BWriteCommand();
+			Bcommand bcommand = new BAllSelectCommand();
 			ArrayList<BoardDTO> dtos = bcommand.listAllSelect();
 
 			// setAttribute(): HttpServletRequest 객체에 속성을 설정하는 역할, 해당 이름을 사용하여 속성값 가져오기
@@ -107,9 +128,30 @@ public class BfrontController extends HttpServlet {
 				System.out.println("dto");
 			}
 			System.out.println("-------------------------");
-		} else if (command.equals("delete.do")) {
+		} else if (command.equals("/View/content_view.do")) {
+			int nbMvcBoard = Integer.parseInt(request.getParameter("nbMvcBoard"));
+			Bcommand bcommand = new BSelectCommand();
+			BoardDTO dto = bcommand.listSelect(nbMvcBoard);
+
+			request.setAttribute("idContent", dto);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/View/content_view.jsp");
+			dispatcher.forward(request, response);
+
+		} else if (command.equals("/View/delete.do")) {
+			int nbMvcBoard = Integer.parseInt(request.getParameter("nbMvcBoard"));
 			System.out.println("/delete.do");
+			Bcommand bcommand = new BBoardDeleteCommand();
+			bcommand.boardDelete(nbMvcBoard);
+			response.sendRedirect("content_view.jsp");
 			System.out.println("-------------------------");
+			
+		} else if (command.equals("/View/reply.do")) {
+			System.out.println("답글 등록 메소드 실행");
+
+			Bcommand bcommand = new BReplyCommand();
+			bcommand.replyBoard(request, response);
+			response.sendRedirect("list.do");
+
 		}
 	}
 }

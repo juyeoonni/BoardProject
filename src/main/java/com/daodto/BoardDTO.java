@@ -27,6 +27,31 @@ public class BoardDTO {
 		this.nbIndent = nbIndent;
 	}
 
+	
+	
+//	public BoardDTO(String nmName, String nmTitle, String nmContent) {
+//		super();
+//		this.nbMvcBoard = 0;
+//		this.nmName = nmName;
+//		this.nmTitle = nmTitle;
+//		this.nmContent = nmContent;
+//		this.dwWrite = null;
+//		this.cnHit = cnHit;
+//		this.nbGroup = 0;
+//		this.nbStep = 1;
+//		this.nbIndent = 0;
+//	}
+	
+
+	public BoardDTO(String nmName, String nmTitle, String nmContent) {
+		super();
+		this.nmName = nmName;
+		this.nmTitle = nmTitle;
+		this.nmContent = nmContent;
+	}
+
+
+
 	public int getNbMvcBoard() {
 		return nbMvcBoard;
 	}

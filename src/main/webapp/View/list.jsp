@@ -9,6 +9,8 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<form action="list.do" method="post">
+	<h2>Board</h2>
 	<table width="500" cellpadding="0" border="1">
 	<tr>
 		<td>번호</td>
@@ -22,7 +24,7 @@
 	<tr>
 		<td>${dto.nbMvcBoard }</td>
 		<td>${dto.nmName }</td>
-		<td>${dto.nmTitle }</td>
+		<td><a href="content_view.do?nbMvcBoard=${dto.nbMvcBoard}">${dto.nmTitle }</a></td>  
 		<td>${dto.dwWrite }</td>
 		<td>${dto.cnHit }</td>
 	</tr> 
@@ -30,10 +32,13 @@
 	
 	<tr>
 		<td colspan="5">
-			<a href="insert.do">글 작성</a>
+			<a href="list.do">게시글 조회</a> <br/>
+			<a href="insertBoard.jsp">게시글 작성</a> <br/>
+			<a href="updateBoard.jsp">게시글 수정</a>
+			<a href=""></a>
 		</td>
 	</tr>
 	</table>
-	
+	</form>
 </body>
 </html>
